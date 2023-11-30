@@ -1,0 +1,7 @@
+{
+    "glitchless": ["legacy"],
+    "legacy": ["unrestricted"],
+    "unrestricted": ["inbounds"],
+    "inbounds": ["oob"],
+    "oob": []
+}
