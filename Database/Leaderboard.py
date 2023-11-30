@@ -69,7 +69,7 @@ def getAMCBoard(db: Database.Interface.DatabaseInterface):
                     WHERE numberOfCategories = (SELECT COUNT(DISTINCT ID) FROM Categories WHERE extension = 0)
                     ORDER BY AMCTotal
 
-""")
+""")[1:]
 
 def getSweepers(db: Database.Interface.DatabaseInterface, cutoff: int):
     return db.executeQuery("""
@@ -87,4 +87,4 @@ def getSweepers(db: Database.Interface.DatabaseInterface, cutoff: int):
                             )
                         WHERE numOfCats = (SELECT COUNT(DISTINCT ID) FROM Categories WHERE extension = 0)
                         ORDER BY avgRank
-""", (cutoff,))
+""", (cutoff,))[1:]

@@ -16,7 +16,7 @@ class SweepersCommand(cobble.command.Command):
         """
         super().__init__(bot, 
                          name="Sweepers",
-                         trigger=["sweepers",],
+                         trigger=["sweepers",], 
                          description="See the list of people who have top X",
                          permission="default")
         
