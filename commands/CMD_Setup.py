@@ -44,8 +44,10 @@ class SetupCommand(cobble.command.Command):
                                              FROM UserSetups
                                              WHERE UserID = ?
                                              """, (userID,))
+        if len(result) == 0:
+            return "You have no recorded setup!"
         setupInfo = {x[0]: [x[1], x[2]] for x in result}
-        print(setupInfo)
+
         output = f"{user.name}'s setup:\n```"
         tableData = []
         peripheralElements = ["keyboard", "mouse", "hz"]
