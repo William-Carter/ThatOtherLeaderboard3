@@ -16,7 +16,7 @@ class SweepersCommand(cobble.command.Command):
         """
         super().__init__(bot, 
                          name="Sweepers",
-                         trigger=["sweepers",], 
+                         trigger=["sweepers",],
                          description="See the list of people who have top X",
                          permission="default")
         
@@ -46,8 +46,8 @@ class SweepersCommand(cobble.command.Command):
             data = data[:19]
 
 
-        data = [["Player", "Average Rank"]]+data
-        table = Helpers.neatTables.generateTable([[x[0], str(x[1])] for x in data])
+        data = [["Player", "Average Rank", "Highest Rank"]]+data
+        table = Helpers.neatTables.generateTable([[x[0], str(x[1]), str(x[2])] for x in data])
         response += "```"+table+"```"
         return response
         
