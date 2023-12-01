@@ -35,7 +35,11 @@ def getNationalLeaderboard(db: Database.Interface.DatabaseInterface, category: s
 
 
 def getContinentalLeaderboard(db: Database.Interface.DatabaseInterface, category: str, continent: str):
-    result = db.executeQuery("""SELECT ID, Name FROM Continents WHERE LOWER(Name) = ?""", (continent.lower(),))[0]
+    result = db.executeQuery("""SELECT ID, Name FROM Continents WHERE LOWER(Name) = ?""", (continent.lower(),))
+    if len(result) == 0:
+        return None,"invalid"
+    
+    result = result[0   ]
     continentCode = result[0]
     continentName = result[1]
     if not continentCode:
