@@ -29,7 +29,7 @@ def ImportUserInfo(db: Database.Interface.DatabaseInterface):
                 newUser = Database.User.User(db)
 
                 if userData["data"]["location"]:
-                    country = userData["data"]["location"]["country"]["code"]
+                    country = userData["data"]["location"]["country"]["code"][:2]
                 else:
                     country = None
 
