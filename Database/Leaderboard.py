@@ -69,14 +69,14 @@ def getAMCBoard(db: Database.Interface.DatabaseInterface):
                     WHERE numberOfCategories = (SELECT COUNT(DISTINCT ID) FROM Categories WHERE extension = 0)
                     ORDER BY AMCTotal
 
-""")[1:]
+""")
 
 def getSweepers(db: Database.Interface.DatabaseInterface, cutoff: int):
     return db.executeQuery("""
-                        SELECT name, avgRank
+                        SELECT name, avgRank, maxplacement
                         FROM (
                             
-                            SELECT u.Name as name, COUNT(rc.Placement) as numOfCats, AVG(rc.Placement) as avgRank
+                            SELECT u.Name as name, COUNT(rc.Placement) as numOfCats, AVG(rc.Placement) as avgRank, MAX(rc.placement) as maxplacement
                             FROM RunCategories rc
                             LEFT JOIN Runs r ON rc.RunID = r.ID
                             LEFT JOIN Users u ON r.Runner = u.ID
@@ -87,4 +87,4 @@ def getSweepers(db: Database.Interface.DatabaseInterface, cutoff: int):
                             )
                         WHERE numOfCats = (SELECT COUNT(DISTINCT ID) FROM Categories WHERE extension = 0)
                         ORDER BY avgRank
-""", (cutoff,))[1:]
+""", (cutoff,))

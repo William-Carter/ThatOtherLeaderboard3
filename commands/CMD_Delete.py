@@ -36,5 +36,10 @@ class DeleteCommand(cobble.command.Command):
                             DELETE FROM Runs
                             WHERE ID = ?
                             """, (int(argumentValues['id']),))
+        
+        self.bot.db.executeQuery("""
+                            DELETE FROM RunCategories
+                            WHERE RunID = ?
+                            """, (int(argumentValues['id']),))
         Database.Leaderboard.updatePlacements(self.bot.db, [x[0] for x in Database.Category.getCategoryList(self.bot.db, includeExtensions=True)])
         return "Run deleted."

@@ -52,7 +52,7 @@ class ARBoardCommand(LeaderboardTemplateCommand):
                                 )
                                 WHERE numOfCats = (SELECT COUNT(DISTINCT ID) FROM Categories WHERE extension = 0)
                                 ORDER BY avgPlace                                         
-                                """)[1:]
+                                """)
 
 
         leaderboardData = leaderboardData[start-1:start+19]
