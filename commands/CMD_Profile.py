@@ -60,7 +60,7 @@ class ProfileCommand(cobble.command.Command):
 
 
         output += f"\nAverage Rank: {user.getAverageRank()}"
-        output += f"\n\nRepresenting {str(user.getCountry()[1]).capitalize()}```"
+        output += f"\n\nRepresenting {str(user.getCountry()[1]).title()}```"
         return output
 
         
