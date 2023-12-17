@@ -85,13 +85,23 @@ class LeaderboardCommand(LeaderboardTemplateCommand):
 
         leaderboardData = leaderboardData[start-1:min(len(leaderboardData)-1, start+19)]
 
-        filteredLeaderboard = [[x[2], x[3]] for x in leaderboardData] # extracts just name and time
-        leaderboardOutput = self.generateLeaderboard(filteredLeaderboard, offset=start-1)
+        if 'continent' in argumentValues.keys():
+            filteredLeaderboard = [[x[2], x[3], x[6]] for x in leaderboardData] # extracts just name and time
+            leaderboardOutput = self.generateLeaderboard(filteredLeaderboard, key=1, offset=start-1)
 
-        # convert all the numerical run lengths to human readable timestrings
-        leaderboardOutput = [[x[0], x[1], durations.formatted(x[2])] for x in leaderboardOutput]
+            # convert all the numerical run lengths to human readable timestrings
+            leaderboardOutput = [[x[0], x[1], durations.formatted(x[2]), str(x[3]).title()] for x in leaderboardOutput]
 
-        # Add headers
-        leaderboardOutput = [["Place", "Runner", "Time"]]+leaderboardOutput
+            # Add headers
+            leaderboardOutput = [["Place", "Runner", "Time", "Country"]]+leaderboardOutput
+        else:    
+            filteredLeaderboard = [[x[2], x[3]] for x in leaderboardData] # extracts just name and time
+            leaderboardOutput = self.generateLeaderboard(filteredLeaderboard, offset=start-1)
+
+            # convert all the numerical run lengths to human readable timestrings
+            leaderboardOutput = [[x[0], x[1], durations.formatted(x[2])] for x in leaderboardOutput]
+
+            # Add headers
+            leaderboardOutput = [["Place", "Runner", "Time"]]+leaderboardOutput
 
         return header+"```"+neatTables.generateTable(leaderboardOutput, padding=2)+"```"

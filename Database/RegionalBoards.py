@@ -46,7 +46,7 @@ def getContinentalLeaderboard(db: Database.Interface.DatabaseInterface, category
         return None, "invalid"
     
     return db.executeQuery("""
-                    SELECT Runs.ID, Users.ID, Users.Name, Runs.Time, RunCategories.Placement, Runs.Date
+                    SELECT Runs.ID, Users.ID, Users.Name, Runs.Time, RunCategories.Placement, Runs.Date, Countries.Name
                     FROM Runs
                     LEFT JOIN Users ON Runs.Runner = Users.ID
                     LEFT JOIN RunCategories on Runs.ID = RunCategories.RunID
