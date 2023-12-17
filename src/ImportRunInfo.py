@@ -34,7 +34,7 @@ def ImportRunInfo(db: Database.Interface.DatabaseInterface):
 
             runner = Database.User.User(db, userID)
 
-            time = run["run"]["times"]["primary_t"]
+            time = Helpers.durations.correctToTick(run["run"]["times"]["primary_t"])
 
             if Database.Run.runExists(db, userID, category, time):
                 continue
