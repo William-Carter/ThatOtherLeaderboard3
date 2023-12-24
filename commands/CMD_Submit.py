@@ -60,5 +60,5 @@ class SubmitCommand(cobble.command.Command):
             date = datetime.date.today().strftime("%Y-%m-%d")
 
         player.addRun(argumentValues['category'], runTime, date)
-        Database.Leaderboard.updatePlacements(self.bot.db, [argumentValues['category'],])
+        Database.Leaderboard.updatePlacements(self.bot.db)
         return f"Submitted a time of {Helpers.durations.formatted(runTime)} to {argumentValues['category']}"

@@ -1,7 +1,8 @@
 import Database.Interface
+import Database.Category
 import Database.Run
 
-def updatePlacements(db: Database.Interface.DatabaseInterface, categories: list[str]) -> None:
+def updatePlacements(db: Database.Interface.DatabaseInterface, categories: list[str] = None) -> None:
     """
     Refresh the stored placements for every run in the provided categories
 
@@ -9,6 +10,9 @@ def updatePlacements(db: Database.Interface.DatabaseInterface, categories: list[
         categories - A list of category IDs to update the leaderboards for
     
     """
+
+    if not categories:
+        categories = [x[0] for x in Database.Category.getCategoryList(db, includeExtensions=True)]
 
 
     for category in categories:
