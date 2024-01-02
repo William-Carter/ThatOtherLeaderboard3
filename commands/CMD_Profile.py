@@ -49,7 +49,7 @@ class ProfileCommand(cobble.command.Command):
 
         
         output = f"Profile for {user.getName()}:\n```"
-        tableData = [["Category", "Time", "Place", "Kinch"]]
+        tableData = [["Category", "Time", "Place", "SCKR"]]
         for pb in pbs:
             if not pb[2]:
                 tableData.append([Database.Category.getCategoryName(self.bot.db, pb[1]), Helpers.durations.formatted(pb[3]), Helpers.durations.formatLeaderBoardPosition(pb[4]), str(pb[5])])
