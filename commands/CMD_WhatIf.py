@@ -4,6 +4,7 @@ import discord
 
 import cobble.permissions
 import Database.Category
+import Database.Leaderboard
 import Helpers.durations
 import Helpers.neatTables
 import Validations.IsCategory
@@ -49,7 +50,9 @@ class WhatIfCommand(cobble.command.Command):
         count = data[0]
         catName = data[1]
 
-        return f"A time of {Helpers.durations.formatted(duration)} would place {Helpers.durations.formatLeaderBoardPosition(count+1)} on the {catName} leaderboard"
+        kinch = Database.Leaderboard.getKinch(self.bot.db, argumentValues['category'], duration)
+
+        return f"A time of {Helpers.durations.formatted(duration)} would place {Helpers.durations.formatLeaderBoardPosition(count+1)} on the {catName} leaderboard and have a kinch of {str(kinch)}"
 
 
 

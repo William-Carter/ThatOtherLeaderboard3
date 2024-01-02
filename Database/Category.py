@@ -34,7 +34,7 @@ def getCategoryName(db: Database.Interface.DatabaseInterface, categoryID: str) -
 
 def getCategoryList(db: Database.Interface.DatabaseInterface, includeExtensions = False) -> list[list[str]]:
     return db.executeQuery("""
-                    SELECT ID, Name
+                    SELECT ID, Name, Downtime
                     FROM Categories
                     WHERE Extension <= ?
                     """, (int(includeExtensions),))

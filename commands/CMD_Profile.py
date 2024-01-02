@@ -5,6 +5,7 @@ import discord
 import cobble.permissions
 import Database.User
 import Database.Category
+import Database.Leaderboard
 import Helpers.durations
 import Helpers.neatTables
 
@@ -41,15 +42,17 @@ class ProfileCommand(cobble.command.Command):
 
         user = Database.User.User(self.bot.db, userID)
 
-        pbs = user.getPersonalBests()
+        pbs = [list(x) for x in user.getPersonalBests()]
         pbs = sorted(pbs, key= lambda x: x[1])
+        for pb in pbs:
+            pb.append(Database.Leaderboard.getKinch(self.bot.db, pb[1], pb[3]))
 
         
         output = f"Profile for {user.getName()}:\n```"
-        tableData = [["Category", "Time", "Place"]]
+        tableData = [["Category", "Time", "Place", "Kinch"]]
         for pb in pbs:
             if not pb[2]:
-                tableData.append([Database.Category.getCategoryName(self.bot.db, pb[1]), Helpers.durations.formatted(pb[3]), Helpers.durations.formatLeaderBoardPosition(pb[4])])
+                tableData.append([Database.Category.getCategoryName(self.bot.db, pb[1]), Helpers.durations.formatted(pb[3]), Helpers.durations.formatLeaderBoardPosition(pb[4]), str(pb[5])])
 
 
         

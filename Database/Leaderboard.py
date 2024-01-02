@@ -92,3 +92,16 @@ def getSweepers(db: Database.Interface.DatabaseInterface, cutoff: int):
                         WHERE numOfCats = (SELECT COUNT(DISTINCT ID) FROM Categories WHERE extension = 0)
                         ORDER BY avgRank
 """, (cutoff,))
+
+
+def getKinch(db: Database.Interface.DatabaseInterface, category: str, time: float):
+    return db.getSingle("""
+                        SELECT ROUND(((MIN(Runs.Time)-Categories.Downtime)/(?-Categories.Downtime))*100, 2)
+                        FROM Runs
+                        LEFT JOIN Users ON Runs.Runner = Users.ID
+                        LEFT JOIN RunCategories on Runs.ID = RunCategories.RunID
+                        LEFT JOIN Categories on RunCategories.Category = Categories.ID
+                        WHERE RunCategories.Placement IS NOT NULL AND RunCategories.Category = ?
+                        ORDER BY RunCategories.Placement
+""", (time, category))
+
