@@ -39,7 +39,7 @@ def getContinentalLeaderboard(db: Database.Interface.DatabaseInterface, category
     if len(result) == 0:
         return None,"invalid"
     
-    result = result[0   ]
+    result = result[0]
     continentCode = result[0]
     continentName = result[1]
     if not continentCode:
