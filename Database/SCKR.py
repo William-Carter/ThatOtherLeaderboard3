@@ -25,7 +25,7 @@ def getSCKRBoard(db: Database.Interface.DatabaseInterface, country: str = None, 
         SELECT 
         Runs.Runner as Runner,
         RunCategories.Category,
-        (WR.time / MIN(Runs.time)) * 100 AS score
+        ((WR.time-Categories.Downtime) / (MIN(Runs.time)-Categories.Downtime)) * 100 AS score
         FROM RunCategories
         LEFT JOIN Runs ON RunCategories.RunID = Runs.ID
         LEFT JOIN Categories ON RunCategories.Category = Categories.ID
