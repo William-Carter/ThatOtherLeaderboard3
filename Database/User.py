@@ -184,6 +184,24 @@ class User:
             return None
         return output[0]
 
+    def getSCKR(self) -> list[list[str, float]]:
+        return self.db.executeQuery("""
+                                    SELECT Categories.ID, ROUND(((WRs.WR-Categories.Downtime)/(MIN(Runs.Time)-Categories.Downtime)*100), 2) as SCKR
+                                    FROM RunCategories
+                                    LEFT JOIN Runs ON RunCategories.RunID = Runs.ID
+                                    LEFT JOIN Categories on RunCategories.category = Categories.ID
+                                    LEFT JOIN (
+                                        SELECT c.ID as category, MIN(Time) as WR
+                                        FROM RunCategories rc
+                                        LEFT JOIN Runs r ON rc.RunID = r.ID
+                                        LEFT JOIN Categories c ON rc.Category = c.ID
+                                        GROUP BY rc.Category
+                                    ) WRs ON RunCategories.category = WRs.category
+                                    WHERE Runs.Runner = ?
+                                    AND Categories.Extension = 0
+                                    GROUP BY RunCategories.Category
+                                    """, (self.ID,))
+
 
     def getCountry(self) -> list[str, str]:
         """

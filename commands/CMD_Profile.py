@@ -63,7 +63,9 @@ class ProfileCommand(cobble.command.Command):
 
 
         output += f"\nAverage Rank: {user.getAverageRank()}"
-        output += f"\n\nRepresenting {str(user.getCountry()[1]).title()}```"
+        output += f"\nOverall SCKR: {sum([x[1] for x in user.getSCKR()])}"
+
+        output += f"\n\nRepresenting {user.getCountry()[1].title()}```"
         return output
 
         
