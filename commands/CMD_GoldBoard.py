@@ -74,7 +74,7 @@ class GoldBoardCommand(LeaderboardTemplateCommand):
             
         else:
             leaderboardData = self.bot.db.executeQuery("""
-                                                    SELECT Users.Name, SUM(Golds.time)
+                                                    SELECT Users.Name, ROUND(SUM(Golds.time), 3)
                                                     FROM Golds
                                                     LEFT JOIN Users ON Golds.Runner = Users.ID
                                                     WHERE Category = ?
