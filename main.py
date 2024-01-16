@@ -3,6 +3,7 @@ import cobble.command
 import cobble.permissions
 import os
 import discord
+from datetime import datetime
 
 import Database.Interface
 dirPath = os.path.dirname(os.path.realpath(__file__))
@@ -56,10 +57,14 @@ async def on_message(message):
         return
     if message.content:
         if message.content[0] == tolBot.prefix and message.content != tolBot.prefix*len(message.content):
-
+            timeReceived = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            logContent = str(message.content)
+            if "\n" in logContent:
+                logContent = logContent.split("\n")[0]+"..."
+            print(f"{timeReceived} {message.author.name}: {logContent}")
             response, postCommand = await tolBot.processCommand(message, message.content[1:])
             if type(response) == str:
-                await message.channel.send(response[:(min(len(response), 1999))])
+                await message.channel.send(response[:(min(len(response), 1999))]) 
             else:
                 for part in response:
                     await message.channel.send(part)
