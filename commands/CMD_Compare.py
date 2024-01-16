@@ -12,6 +12,8 @@ import Validations.IsGoldsList
 
 
 class CompareCommand(cobble.command.Command):
+    plus = "\u001b[0;31m+"
+    minus = "\u001b[0;32m-"
     def __init__(self, bot: cobble.bot.Bot):
         """
         Parameters:
@@ -139,6 +141,9 @@ class CompareCommand(cobble.command.Command):
 
         user2times = [user2.name]
         user2ranks = [""]
+
+        
+
         for category in usedCategories:
             PB = ""
             rank = ""
@@ -149,8 +154,8 @@ class CompareCommand(cobble.command.Command):
                     if category[0] in user1pbdict.keys():
                         timeDiff = run[3] - user1pbdict[category[0]]["time"]
                         rankDiff = run[4] - user1pbdict[category[0]]["rank"]
-                        PB += f" ({('+' if timeDiff>=0 else '-')+Helpers.durations.formatted(abs(timeDiff))})"
-                        rank += f" ({('+' if rankDiff>=0 else '-')+str(abs(rankDiff))})"
+                        PB += f" ({(self.plus if timeDiff>=0 else self.minus)+Helpers.durations.formatted(abs(timeDiff))}\u001b[0m)"
+                        rank += f" ({(self.plus if rankDiff>=0 else self.minus)+str(abs(rankDiff))}\u001b[0m)"
 
             user2times.append(PB)
             user2ranks.append(rank)
@@ -160,7 +165,7 @@ class CompareCommand(cobble.command.Command):
         avgRankString = str(averageRank) if averageRank else ""
         rankDiff = averageRank-user1averageRank
         if user1averageRank:
-            avgRankString += f" ({('+' if rankDiff>=0 else '-')+str(abs(rankDiff))})"
+            avgRankString += f" ({(self.plus if rankDiff>=0 else self.minus)+str(abs(rankDiff))}\u001b[0m)"
         user2times += ["", avgRankString]
         user2ranks += ["", ""]
 
@@ -174,7 +179,7 @@ class CompareCommand(cobble.command.Command):
 
         tableData = [list(reversed(x)) for x in list(zip(*tableData[::-1]))]
         table = Helpers.neatTables.generateTable(tableData, padding=2)
-        table = "```"+table+"```"
+        table = "```ansi\n"+table+"```"
 
         return table
 
@@ -228,7 +233,7 @@ class CompareCommand(cobble.command.Command):
         for map in maps:
             # I am using the level name (00/01) as the key here and I hate it but I'm too lazy to fix it rn
             goldDifference = round(userGolds[1][map[1]][0]-userGolds[0][map[1]][0], 3)
-            goldDifference = " ("+("+" if (goldDifference >= 0) else "-")+Helpers.durations.formatted(abs(goldDifference))+")"
+            goldDifference = " ("+(self.plus if (goldDifference >= 0) else self.minus)+Helpers.durations.formatted(abs(goldDifference))+"\u001b[0m)"
             user1gold = Helpers.durations.formatted(userGolds[0][map[1]][0]) 
             user2gold = Helpers.durations.formatted(userGolds[1][map[1]][0])+goldDifference
             tableData.append([map[1], user1gold, user2gold])
@@ -237,13 +242,13 @@ class CompareCommand(cobble.command.Command):
         user1sob = sum([x[1] for x in user1.getGolds(argumentValues['category'])])
         user2sob = sum([x[1] for x in user2.getGolds(argumentValues['category'])])
         sobDifference = round(user2sob-user1sob, 3)
-        sobDifference = " ("+("+" if (sobDifference >= 0) else "-")+Helpers.durations.formatted(abs(sobDifference))+")"
+        sobDifference = " ("+(self.plus if (sobDifference >= 0) else self.minus)+Helpers.durations.formatted(abs(sobDifference))+"\u001b[0m)"
 
         tableData.append(["", "", ""])
         tableData.append(["Total", Helpers.durations.formatted(user1sob), Helpers.durations.formatted(user2sob)+sobDifference])
 
         header = f"Comparing {Database.Category.getCategoryName(self.bot.db, argumentValues['category'])} golds for {user1.name} and {user2.name}"
-        return header+"\n```"+Helpers.neatTables.generateTable(tableData)+"```"
+        return header+"\n```ansi\n"+Helpers.neatTables.generateTable(tableData)+"```"
 
 
     async def comgoldCompare(self, messageObject: discord.message.Message, argumentValues: dict):
@@ -294,18 +299,18 @@ class CompareCommand(cobble.command.Command):
 
             comgoldTime = Helpers.durations.formatted(comgoldTime)
             userGold = Helpers.durations.formatted(userGold)
-            difference = " ("+("+" if (difference >= 0) else "-")+Helpers.durations.formatted(abs(difference))+")"
+            difference = " ("+(self.plus if (difference >= 0) else self.minus)+Helpers.durations.formatted(abs(difference))+"\u001b[0m)"
 
             tableData.append([gold[0], comgoldTime, userGold+difference])
 
 
 
         sobDifference = userSob-comSob
-        sobDifference = " ("+("+" if (sobDifference >= 0) else "-")+Helpers.durations.formatted(abs(sobDifference))+")"
+        sobDifference = " ("+(self.plus if (sobDifference >= 0) else self.minus)+Helpers.durations.formatted(abs(sobDifference))+"\u001b[0m)"
         tableData.append(["", "", ""])
         tableData.append(["Total", Helpers.durations.formatted(comSob), Helpers.durations.formatted(userSob)+sobDifference])
         header = f"Comparing against {Database.Category.getCategoryName(self.bot.db, argumentValues['category'])} comgolds for {user.name}"
-        return header+"\n```"+Helpers.neatTables.generateTable(tableData)+"```"
+        return header+"\n```ansi\n"+Helpers.neatTables.generateTable(tableData)+"```"
 
         
 

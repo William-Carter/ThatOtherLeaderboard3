@@ -48,11 +48,11 @@ class ProfileCommand(cobble.command.Command):
             pb.append(Database.Leaderboard.getKinch(self.bot.db, pb[1], pb[3]))
 
         
-        output = f"Profile for {user.getName()}:\n```"
+        output = f"Profile for {user.getName()}:\n```ansi\n"
         tableData = [["Category", "Time", "Place", "SCKR"]]
         for pb in pbs:
             if not pb[2]:
-                tableData.append([Database.Category.getCategoryName(self.bot.db, pb[1]), Helpers.durations.formatted(pb[3]), Helpers.durations.formatLeaderBoardPosition(pb[4]), str(pb[5])])
+                tableData.append([Database.Category.getCategoryName(self.bot.db, pb[1]), Helpers.durations.formatted(pb[3]), Helpers.durations.formatLeaderBoardPosition(pb[4], colorCode=True), str(pb[5])])
 
 
         

@@ -1,4 +1,5 @@
 from typing import List
+from strip_ansi import strip_ansi
 
 def generateTable(inp: List[List[str]], padding: int = 4) -> str:
     """
@@ -15,7 +16,7 @@ def generateTable(inp: List[List[str]], padding: int = 4) -> str:
     for i in range(len(inp[0])):
         columnWidth = 0
         for row in inp:
-            localWidth = len(row[i])
+            localWidth = clen(row[i]) # ansi codes may be used, we don't want to include them in our length calculations
             if localWidth > columnWidth:
                 columnWidth = localWidth
 
@@ -28,7 +29,7 @@ def generateTable(inp: List[List[str]], padding: int = 4) -> str:
     table = ""
     for row in inp:
         for i in range(len(row)):
-            table += row[i]+" "*(widths[i]-len(row[i]))
+            table += row[i]+" "*(widths[i]-clen(row[i]))
         table += "\n"
 
     return table
@@ -60,11 +61,13 @@ def codeBlock(inp: str | list):
     return outp
 
 
+def clen(item):
+    stripped = strip_ansi(item)
+    return len(stripped)
+
+
 
 if __name__ == "__main__":
-    testData = [
-        ["Level", "Glitchless", "Inbounds", "Out of Bounds"],
-        ["00/01", "2:03.585, 1st", "1:11.820, 1st", "1:11.820, 2nd"],
-        ["06/07", "44.235, 12th", "41.490, 1st", "20.61, 112th"]
-    ]
-    print(generateTable(testData))
+    testCode = "\u001b[1;33mpenis\u001b[0m"
+    print(len(testCode))
+    print(clen(testCode))
