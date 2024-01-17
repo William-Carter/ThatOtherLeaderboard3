@@ -50,7 +50,7 @@ class WhoHasCommand(cobble.command.Command):
         )
         
         # Deal with plurality
-        if len(data) > 1:
+        if len(data) != 1:
             response = f"There are {len(data)} people"
         else:
             response = f"There is 1 person"
