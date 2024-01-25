@@ -29,6 +29,12 @@ def correctToTick(timeNum: float) -> float:
     return round(round((timeNum/0.015), 0)*0.015, 3)
 
 def formatLeaderBoardPosition(position: int, colorCode: bool = False):
+
+
+    if not position:
+        return ""
+
+
     suffix = "th"
     cases = {"1": "st",
                 "2": "nd",
@@ -46,7 +52,7 @@ def formatLeaderBoardPosition(position: int, colorCode: bool = False):
             case 1:
                 color = "\u001b[1;33m"
             case 2:
-                color = "\u001b[1;30m"
+                color = "\u001b[1;34m"
             case 3:
                 color = "\u001b[1;32m"
 
