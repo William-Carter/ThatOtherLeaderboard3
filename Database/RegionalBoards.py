@@ -57,3 +57,50 @@ def getContinentalLeaderboard(db: Database.Interface.DatabaseInterface, category
                     AND LOWER(Continents.ID) = ?
                     ORDER BY RunCategories.Placement
                     """, (category, continentCode.lower())), continentName
+
+
+def getNationalPlacement(db: Database.Interface.DatabaseInterface, runID: int, category: str):
+    return db.getSingle("""
+                           SELECT calculatedRank 
+                           FROM (   
+                                SELECT rc.RunID, RANK() OVER (ORDER BY MIN(r.Time) ASC) AS calculatedRank
+                                FROM RunCategories AS rc
+                                LEFT JOIN Runs AS r ON rc.RunID = r.ID
+								LEFT JOIN Users AS u ON r.Runner = u.ID
+                                WHERE rc.Category = ?
+								AND u.Nationality = (
+                                    SELECT iu.Nationality 
+                                    FROM Runs ir
+									LEFT JOIN Users iu ON ir.Runner = iu.ID
+                                    WHERE ir.ID = ?                            
+                                    )
+								
+                                GROUP BY r.Runner
+                           ) 
+                           
+                           WHERE RunID = ? 
+        """, (category, runID, runID))
+
+
+def getContinentalPlacement(db: Database.Interface.DatabaseInterface, runID: int, category: str):
+    return db.getSingle("""
+                           SELECT calculatedRank 
+                           FROM (   
+                                SELECT rc.RunID, RANK() OVER (ORDER BY MIN(r.Time) ASC) AS calculatedRank
+                                FROM RunCategories AS rc
+                                LEFT JOIN Runs AS r ON rc.RunID = r.ID
+								LEFT JOIN Users AS u ON r.Runner = u.ID
+								LEFT JOIN Countries AS c ON u.Nationality = LOWER(c.Code)
+                                WHERE rc.Category = ?
+								AND c.Continent = (
+                                    SELECT ic.Continent
+                                    FROM Runs ir
+									LEFT JOIN Users iu ON ir.Runner = iu.ID
+									LEFT JOIN Countries ic ON iu.Nationality = LOWER(ic.Code)
+                                    WHERE ir.ID = ?                        
+                                    )
+								
+                                GROUP BY r.Runner
+                           )
+                           WHERE RunID = ? 
+        """, (category, runID, runID))

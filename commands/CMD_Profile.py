@@ -6,6 +6,7 @@ import cobble.permissions
 import Database.User
 import Database.Category
 import Database.Leaderboard
+import Database.RegionalBoards
 import Helpers.durations
 import Helpers.neatTables
 
@@ -49,10 +50,17 @@ class ProfileCommand(cobble.command.Command):
 
         
         output = f"Profile for {user.getName()}:\n```ansi\n"
-        tableData = [["Category", "Time", "Place", "SCKR"]]
+        tableData = [["Category", "Time", "SCKR", "WR", "CR", "NR"]]
         for pb in pbs:
             if not pb[2]:
-                tableData.append([Database.Category.getCategoryName(self.bot.db, pb[1]), Helpers.durations.formatted(pb[3]), Helpers.durations.formatLeaderBoardPosition(pb[4], colorCode=True), str(pb[5])])
+                tableData.append([
+                    Database.Category.getCategoryName(self.bot.db, pb[1]), 
+                    Helpers.durations.formatted(pb[3]), 
+                    str(pb[5]),
+                    Helpers.durations.formatLeaderBoardPosition(pb[4], colorCode=True),
+                    Helpers.durations.formatLeaderBoardPosition(Database.RegionalBoards.getContinentalPlacement(self.bot.db, pb[0], pb[1]), colorCode=True),
+                    Helpers.durations.formatLeaderBoardPosition(Database.RegionalBoards.getNationalPlacement(self.bot.db, pb[0], pb[1]), colorCode=True),
+                    ])
 
 
         
