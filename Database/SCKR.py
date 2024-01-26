@@ -4,7 +4,7 @@ def getSCKRBoard(db: Database.Interface.DatabaseInterface, country: str = None, 
         result = db.executeQuery("""SELECT Code, Name FROM Countries WHERE LOWER(Name) = ?""", (country.lower(),))
         if len(result) == 0:
             return None, "invalid"
-        regionSelection = f"WHERE Users.Nationality = LOWER('{result[0][0]}')"
+        regionSelection = f"WHERE Users.Nationality = '{result[0][0]}'"
         regionName = result[0][1]
 
     elif continent:
