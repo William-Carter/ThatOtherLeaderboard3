@@ -42,7 +42,7 @@ def getSCKRBoard(db: Database.Interface.DatabaseInterface, country: str = None, 
         GROUP BY Runner, RunCategories.Category
         ) as subquery
         LEFT JOIN Users ON subquery.Runner = Users.ID
-        LEFT JOIN Countries ON Users.Nationality = LOWER(Countries.Code)
+        LEFT JOIN Countries ON Users.Nationality = Countries.Code
         LEFT JOIN Continents ON Countries.Continent = Continents.ID
         {regionSelection}
         GROUP BY Runner

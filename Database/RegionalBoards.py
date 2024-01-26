@@ -50,7 +50,7 @@ def getContinentalLeaderboard(db: Database.Interface.DatabaseInterface, category
                     FROM Runs
                     LEFT JOIN Users ON Runs.Runner = Users.ID
                     LEFT JOIN RunCategories on Runs.ID = RunCategories.RunID
-                    LEFT JOIN Countries ON Users.Nationality = LOWER(Countries.CODE)
+                    LEFT JOIN Countries ON Users.Nationality = Countries.CODE
                     LEFT JOIN Continents ON Countries.Continent = Continents.ID
                     WHERE RunCategories.Placement IS NOT NULL 
                     AND RunCategories.Category = ?
