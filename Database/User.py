@@ -213,7 +213,7 @@ class User:
         return self.db.executeQuery("""
                                       SELECT Countries.Code, Countries.Name
                                       FROM Users
-                                      LEFT JOIN Countries ON Users.Nationality = LOWER(Countries.Code)
+                                      LEFT JOIN Countries ON Users.Nationality = Countries.Code
                                       WHERE Users.ID = ?
                                       """, (self.ID,))[0]
     

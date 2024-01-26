@@ -90,13 +90,13 @@ def getContinentalPlacement(db: Database.Interface.DatabaseInterface, runID: int
                                 FROM RunCategories AS rc
                                 LEFT JOIN Runs AS r ON rc.RunID = r.ID
 								LEFT JOIN Users AS u ON r.Runner = u.ID
-								LEFT JOIN Countries AS c ON u.Nationality = LOWER(c.Code)
+								LEFT JOIN Countries AS c ON u.Nationality = c.Code
                                 WHERE rc.Category = ?
 								AND c.Continent = (
                                     SELECT ic.Continent
                                     FROM Runs ir
 									LEFT JOIN Users iu ON ir.Runner = iu.ID
-									LEFT JOIN Countries ic ON iu.Nationality = LOWER(ic.Code)
+									LEFT JOIN Countries ic ON iu.Nationality = ic.Code
                                     WHERE ir.ID = ?                        
                                     )
 								
