@@ -19,6 +19,6 @@ class IsCategory(cobble.validations.Validation):
         with open("Database/CategoryPropagation.json", "r") as f:
             categories = json.load(f).keys()
 
-        return x in categories
+        return x.lower() in categories
 
         
