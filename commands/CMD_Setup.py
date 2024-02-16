@@ -45,7 +45,7 @@ class SetupCommand(cobble.command.Command):
                                              WHERE UserID = ?
                                              """, (userID,))
         if len(result) == 0:
-            return "You have no recorded setup!"
+            return "User has no recorded setup!"
         setupInfo = {x[0]: [x[1], x[2]] for x in result}
 
         output = f"{user.name}'s setup:\n```"
