@@ -46,7 +46,7 @@ class SubmitCommand(cobble.command.Command):
     async def execute(self, messageObject: discord.message.Message, argumentValues: dict, attachedFiles: dict) -> str:
         userID = Database.User.identifyUser(self.bot.db, discordID=messageObject.author.id)
         if not userID:
-            return f"You need to link your discord account to speedrun.com before submitting runs!\Run .help iam for more information."
+            return f"You need to link your discord account to speedrun.com before submitting runs!\nRun .help iam for more information."
 
         player = Database.User.User(self.bot.db, userID)
         runTime = Helpers.durations.seconds(argumentValues['time'])
