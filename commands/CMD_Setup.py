@@ -78,7 +78,6 @@ class SetupCommand(cobble.command.Command):
 
         
 
-        print(tableData)
 
         output += Helpers.neatTables.generateTable(tableData)+"```"
 
