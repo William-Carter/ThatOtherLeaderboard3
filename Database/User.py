@@ -265,7 +265,8 @@ class User:
                                  SELECT MapName, CGEligible
                                  FROM Golds
                                  WHERE Runner = ?
-                                 """, (self.ID,))
+                                 AND Category = ?
+                                 """, (self.ID, category))
         
         existingEligibility = {x: None for x in maps}
 
